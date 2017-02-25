@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Module.
+ */
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\kalkulator\Controller\PageMain;
+ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+
+function kalkulator_entity_presave(EntityInterface $entity) {
+  if(method_exists($entity, 'getType') && $entity->getType() == 'kalkulator'){
+     $result = PageMain::res($entity);
+     $itog = PageMain::itog($entity);
+     $entity->field_kalkulator_rez->setValue($result);
+     $entity->field_kalkulator_itog->setValue($itog);
+     $entity->title->setValue(date('d-M-Y'));
+  }
+}
+
+function kalkulator_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode){
+  if(method_exists($entity, 'getType') && $entity->getType() == 'kalkulator'){
+    $output = [
+      '#type' => 'markup',
+      '#markup' => '<p>ваша прибыль: ' . $entity->field_kalkulator_rez->value . "</p>",
+    ];
+
+    $build['new454'] = $output;
+
+    $headers = [
+      ['data' => '#', 'class' => ['text-center']],
+      ['data' => 'Название', 'class' => ['text-left']],
+      ['data' => "ываыва"],
+    ];
+    $rows = [];
+    for ($i = 1; $i <= 4; $i++) {
+      $rows[$i] = [
+        ['data' => $i, 'class' => ['text-center'], ],
+        ['data' => 'fghjkl'],
+        ['data' => 'Ьелеыавы'],
+      ];
+    }
+
+    $table = [
+      '#type' => 'table',
+      '#header' => $headers,
+      '#rows' => $rows,
+      '#attributes' => ['class' => ['table', 'table-striped', 'table-hover']],
+      '#allowed_tags' => ['p', 'h2', 'small', 'br'],
+    ];
+
+    $build['table1'] = $table;
+    /*foreach ($build as $key => $value) {
+      //dsm($key);
+    }*/
+  }
+}

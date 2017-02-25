@@ -1,0 +1,7 @@
+kalkulator.main:
+  path: '/kalkulator/{nid}'
+  defaults:
+    _controller: '\Drupal\kalkulator\Controller\PageMain::page'
+    _title: 'Калькулятор'
+  requirements:
+    _permission: 'access content'
